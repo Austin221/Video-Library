@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <limits>
-#include <sstream>
 
 int main()
 {
@@ -10,25 +9,25 @@ int main()
   int method;
 
   for(;;) {
-  	fstream myfile ("videos.txt", ios::out | ios::app);
-  	cout << "     THIS IS A DATABASE OF ALL THE SHOWS CURRENTLY DOWNLOADED.\n";
+  	ifstream myfile_in("videos.txt");
+    ofstream myfile_out("videos.txt", ios::app);
+    cout << "     THIS IS A DATABASE OF ALL THE SHOWS CURRENTLY DOWNLOADED.\n";
   	cout << "               YOUR OPTIONS ARE:                              \n";
   	cout << "                                                              \n";
   	cout << "               1. List current shows.                         \n";
   	cout << "               2. Search for a show.                          \n";
   	cout << "               3. Add a show to the list.                     \n";
   	cout << "               4. Add link and encryption key (if any).       \n";
+  	cout << "               5. EXIT THE PROGRAM                            \n";
   	cout << "                                                              \n";
     cin >> method;
     cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     switch(method) {
-      case 1: // this doesnt display the files in myvideos.txt 
-      {
-        fstream myfile_in("videos.txt", ios::in); // There is 2 myfile variables this can cause an conflict.
-        stringstream buffer({istreambuf_iterator<char>(myfile_in), {}});
-      }
-      break; 
+      case 1:
+        //myfile.flush();  // Is this flush needed anymore?  i dont think it is
+        cout << string(istreambuf_iterator<char>(myfile_in), {});
+      break;
     	case 2:
         cout << "What would you like to find? \n";
         cin >> search;
@@ -39,13 +38,17 @@ int main()
       	cin >> show;
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        myfile << show; 
+        myfile_out << show << endl;
       break;
       case 4:
-      //will work on making the links stored in another file later. 
+        // FIXME: Make the links stored in another file
       break;
-      default: 
-        cout << "That is not a valid command!";
+      case 5:
+        cout << "Exiting the program!";
+        return 0;
+        break;
+      default:
+        cout << "That is not a valid command! \n";
       break;
     }
   }
