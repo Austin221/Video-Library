@@ -25,7 +25,6 @@ int main()
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     switch(method) {
       case 1:
-        //myfile.flush();  // Is this flush needed anymore?  i dont think it is
         cout << string(istreambuf_iterator<char>(myfile_in), {});
       break;
     	case 2:
